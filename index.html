@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antigravity AI — Build Your Store in 60 Seconds</title>
+<meta name="description" content="Your store, live in 60 seconds. Build, design, and launch your store with Antigravity AI. Zero coding, zero guessing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  :root {
+    --black: #080808;
+    --white: #f5f2ec;
+    --acid: #b8ff4f;
+    --acid-dim: #8bcc2a;
+    --purple: #7c3aed;
+    --glass: rgba(245,242,236,0.06);
+    --glass-border: rgba(245,242,236,0.12);
+    --radius: 16px;
+  }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+ 
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+ 
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8,8,8,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+ 
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--white);
+  }
+  .logo-dot { width: 10px; height: 10px; background: var(--acid); border-radius: 50%; display: inline-block; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.7} }
+ 
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { color: rgba(245,242,236,0.6); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+ 
+  .nav-cta {
+    background: var(--acid);
+    color: var(--black);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,255,79,0.35); }
+ 
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .hero-glow {
+    position: absolute;
+    width: 800px; height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,255,79,0.12) 0%, transparent 70%);
+    top: 30%; left: 60%;
+    pointer-events: none;
+  }
+ 
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--acid);
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .badge-dot { width: 6px; height: 6px; background: var(--acid); border-radius: 50%; }
+ 
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    max-width: 900px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  h1 em { font-style: normal; color: var(--acid); }
+ 
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 18px;
+    color: rgba(245,242,236,0.55);
+    max-width: 520px;
+    font-weight: 300;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+ 
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 44px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+ 
+  .btn-primary {
+    background: var(--acid);
+    color: var(--black);
+    border: none;
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(184,255,79,0.4); }
+ 
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--glass-border);
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: rgba(245,242,236,0.4); background: var(--glass); }
+ 
+  .stats-row {
+    display: flex;
+    gap: 48px;
+    margin-top: 72px;
+    animation: fadeUp 0.7s 0.4s ease both;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 800; color: var(--acid); }
+  .stat-label { font-size: 13px; color: rgba(245,242,236,0.4); margin-top: 4px; }
+ 
+  /* ── HOW IT WORKS ── */
+  section { padding: 100px 24px; }
+ 
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 16px;
+  }
+ 
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+  }
+ 
+  .container { max-width: 1100px; margin: 0 auto; }
+ 
+  /* ── STEPS DEMO ── */
+  .demo-section { background: rgba(245,242,236,0.02); }
+ 
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+ 
+  .step-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .step-card:hover { border-color: rgba(184,255,79,0.3); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+ 
+  .step-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    color: rgba(245,242,236,0.06);
+    position: absolute;
+    top: 16px; right: 24px;
+    line-height: 1;
+    user-select: none;
+  }
+ 
+  .step-icon {
+    width: 48px; height: 48px;
+    background: rgba(184,255,79,0.12);
+    border: 1px solid rgba(184,255,79,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+ 
+  .step-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .step-card p { color: rgba(245,242,236,0.5); font-size: 14px; line-height: 1.7; }
+ 
+  /* ── INTERACTIVE BUILDER ── */
+  .builder-section { }
+ 
+  .builder-wrap {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    overflow: hidden;
+    margin-top: 64px;
+  }
+ 
+  .builder-header {
+    background: rgba(245,242,236,0.04);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .browser-dots { display: flex; gap: 6px; }
+  .browser-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .bd-r { background: #ff5f57; }
+  .bd-y { background: #febc2e; }
+  .bd-g { background: #28c840; }
+  .browser-bar {
+    flex: 1;
+    background: rgba(245,242,236,0.06);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: rgba(245,242,236,0.3);
+  }
+ 
+  .builder-body { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
+ 
+  .builder-left {
+    padding: 36px 32px;
+    border-right: 1px solid var(--glass-border);
+  }
+ 
+  .builder-left h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .builder-left p { font-size: 13px; color: rgba(245,242,236,0.5); margin-bottom: 28px; }
+ 
+  .niche-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .niche-tag {
+    padding: 8px 16px;
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    color: rgba(245,242,236,0.6);
+    font-family: 'Inter', sans-serif;
+  }
+  .niche-tag:hover, .niche-tag.active {
+    background: rgba(184,255,79,0.12);
+    border-color: var(--acid);
+    color: var(--acid);
+  }
+ 
+  .store-name-input {
+    width: 100%;
+    background: rgba(245,242,236,0.06);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--white);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 16px;
+  }
+  .store-name-input:focus { border-color: rgba(184,255,79,0.4); }
+  .store-name-input::placeholder { color: rgba(245,242,236,0.25); }
+ 
+  .generate-btn {
+    width: 100%;
+    background: var(--acid);
+    color: var(--black);
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,255,79,0.35); }
+ 
+  .builder-right { padding: 36px 32px; position: relative; overflow: hidden; }
+ 
+  .preview-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,242,236,0.3); margin-bottom: 20px; }
+ 
+  .store-preview {
+    background: rgba(245,242,236,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    overflow: hidden;
+    height: 360px;
+    transition: opacity 0.3s;
+  }
+ 
+  .preview-nav-bar {
+    background: rgba(245,242,236,0.06);
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .preview-logo-text { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; }
+  .preview-nav-item { width: 40px; height: 6px; background: rgba(245,242,236,0.15); border-radius: 3px; }
+ 
+  .preview-hero-area {
+    padding: 24px 18px 18px;
+    text-align: center;
+  }
+  .preview-headline { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .preview-sub { font-size: 11px; color: rgba(245,242,236,0.4); margin-top: 6px; }
+  .preview-cta-btn {
+    display: inline-block;
+    background: var(--acid);
+    color: var(--black);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 14px;
+  }
+ 
+  .preview-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 16px 18px;
+  }
+  .preview-product {
+    background: rgba(245,242,236,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .preview-product-img {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  .preview-product-info { padding: 8px 10px; }
+  .preview-product-name { font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .preview-product-price { font-size: 10px; color: var(--acid); margin-top: 2px; }
+ 
+  /* ── FEATURES GRID ── */
+  .features-section { background: rgba(124,58,237,0.04); }
+ 
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+    background: var(--glass-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+ 
+  .feature-cell {
+    background: var(--black);
+    padding: 40px 36px;
+    transition: background 0.3s;
+  }
+  .feature-cell:hover { background: rgba(245,242,236,0.03); }
+  .feature-cell.accent { background: rgba(184,255,79,0.05); }
+  .feature-cell.accent:hover { background: rgba(184,255,79,0.08); }
+ 
+  .feature-icon-lg { font-size: 32px; margin-bottom: 20px; }
+  .feature-cell h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .feature-cell p { color: rgba(245,242,236,0.5); font-size: 14px; line-height: 1.8; }
+ 
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+    align-items: start;
+  }
+ 
+  .plan-card {
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .plan-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+  .plan-card.featured {
+    border-color: var(--acid);
+    background: rgba(184,255,79,0.06);
+    position: relative;
+  }
+  .plan-card.featured:hover { border-color: rgba(184,255,79,0.6); }
+ 
+  .plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--acid);
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 100px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+ 
+  .plan-name { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: rgba(245,242,236,0.5); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .plan-price { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; }
+  .plan-price span { font-size: 18px; font-weight: 400; color: rgba(245,242,236,0.4); vertical-align: super; }
+  .plan-period { font-size: 13px; color: rgba(245,242,236,0.4); margin-bottom: 28px; }
+  .plan-divider { height: 1px; background: var(--glass-border); margin-bottom: 24px; }
+ 
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .plan-features li { font-size: 14px; color: rgba(245,242,236,0.7); display: flex; gap: 10px; }
+  .plan-features li::before { content: '✓'; color: var(--acid); font-weight: 700; flex-shrink: 0; }
+  .plan-features li.disabled { color: rgba(245,242,236,0.25); }
+  .plan-features li.disabled::before { content: '×'; color: rgba(245,242,236,0.2); }
+ 
+  .plan-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .plan-btn.outline { background: transparent; border: 1px solid var(--glass-border); color: var(--white); }
+  .plan-btn.outline:hover { border-color: rgba(245,242,236,0.3); background: var(--glass); }
+  .plan-btn.solid { background: var(--acid); color: var(--black); }
+  .plan-btn.solid:hover { box-shadow: 0 8px 24px rgba(184,255,79,0.4); transform: translateY(-1px); }
+ 
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: rgba(245,242,236,0.02); }
+ 
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 64px;
+  }
+ 
+  .testi-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .testi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+ 
+  .testi-stars { color: var(--acid); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+  .testi-text { font-size: 14px; line-height: 1.8; color: rgba(245,242,236,0.7); margin-bottom: 20px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--acid-dim));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: var(--white);
+  }
+  .testi-name { font-weight: 600; font-size: 14px; }
+  .testi-role { font-size: 12px; color: rgba(245,242,236,0.4); }
+ 
+  /* ── CTA SECTION ── */
+  .cta-section {
+    text-align: center;
+    padding: 120px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+    left: 50%; top: 50%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .cta-section h2 { max-width: 600px; margin: 0 auto 24px; }
+  .cta-section p { color: rgba(245,242,236,0.5); max-width: 420px; margin: 0 auto 44px; }
+ 
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--glass-border);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-copy { font-size: 13px; color: rgba(245,242,236,0.3); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: rgba(245,242,236,0.3); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+ 
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+ 
+  .fade-up { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+ 
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .steps-grid, .pricing-grid, .testi-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .builder-body { grid-template-columns: 1fr; }
+    .builder-left { border-right: none; border-bottom: 1px solid var(--glass-border); padding-bottom: 40px; }
+    .builder-right { padding-top: 40px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-dot"></span>
+    Antigravity<span style="color:var(--acid)">AI</span>
+  </a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#testimonials">Reviews</a>
+  </div>
+  <a href="#builder" class="nav-cta">Start for free →</a>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+ 
+  <div class="badge">
+    <span class="badge-dot"></span>
+    Now powered by Antigravity AI v2.0
+  </div>
+ 
+  <h1>Your store,<br>live in <em>60 seconds.</em></h1>
+  <p class="hero-sub">Pick your niche. Name your brand. Let AI build, design, and launch your store — zero coding, zero guessing.</p>
+ 
+  <div class="hero-actions">
+    <a href="#builder" class="btn-primary">⚡ Generate My Store</a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+ 
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">12,000+</div>
+      <div class="stat-label">Stores launched</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">60s</div>
+      <div class="stat-label">Avg. build time</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">₹0</div>
+      <div class="stat-label">To get started</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">User rating</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- HOW IT WORKS -->
+<section id="how" class="demo-section">
+  <div class="container">
+    <div class="section-label fade-up">How it works</div>
+    <h2 class="fade-up">Three steps.<br>One live store.</h2>
+ 
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-num">01</div>
+        <div class="step-icon">🎯</div>
+        <h3>Choose your niche</h3>
+        <p>Pick from 50+ niches — fashion, digital products, food, fitness, handmade, and more. Antigravity AI knows what works in each category.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">02</div>
+        <div class="step-icon">✨</div>
+        <h3>AI designs everything</h3>
+        <p>Our AI writes your copy, chooses your color scheme, sets up your product pages, and configures payments — all in under 60 seconds.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">03</div>
+        <div class="step-icon">🚀</div>
+        <h3>Launch & earn</h3>
+        <p>You get a live URL instantly. Share it. Sell. Accept payments via UPI, cards, and wallets. No hosting headaches — we handle it all.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- INTERACTIVE BUILDER DEMO -->
+<section id="builder" class="builder-section">
+  <div class="container">
+    <div class="section-label fade-up">Live builder</div>
+    <h2 class="fade-up">Try it right now.</h2>
+ 
+    <div class="builder-wrap fade-up">
+      <div class="builder-header">
+        <div class="browser-dots">
+          <div class="browser-dot bd-r"></div>
+          <div class="browser-dot bd-y"></div>
+          <div class="browser-dot bd-g"></div>
+        </div>
+        <div class="browser-bar" id="browser-url">antigravity.ai/store/wearsho</div>
+      </div>
+      <div class="builder-body">
+        <div class="builder-left">
+          <h3>Build your store</h3>
+          <p>Choose a category to get started</p>
+ 
+          <div class="niche-tags">
+            <button class="niche-tag active" onclick="selectNiche(this,'👕 Fashion','fashion')">👕 Fashion</button>
+            <button class="niche-tag" onclick="selectNiche(this,'📦 Digital','digital')">📦 Digital</button>
+            <button class="niche-tag" onclick="selectNiche(this,'🍕 Food','food')">🍕 Food</button>
+            <button class="niche-tag" onclick="selectNiche(this,'💄 Beauty','beauty')">💄 Beauty</button>
+            <button class="niche-tag" onclick="selectNiche(this,'📚 Courses','courses')">📚 Courses</button>
+            <button class="niche-tag" onclick="selectNiche(this,'🏋️ Fitness','fitness')">🏋️ Fitness</button>
+          </div>
+ 
+          <input type="text" class="store-name-input" id="store-name" placeholder="Enter your store name..." oninput="updatePreview()" value="WearSho">
+ 
+          <button class="generate-btn" onclick="generateStore()">
+            <span id="btn-text">⚡ Generate My Store</span>
+          </button>
+        </div>
+ 
+        <div class="builder-right">
+          <div class="preview-label">Live preview</div>
+          <div class="store-preview" id="store-preview">
+            <div class="preview-nav-bar">
+              <div class="preview-logo-text" id="preview-logo">WearSho</div>
+              <div style="display:flex;gap:8px">
+                <div class="preview-nav-item"></div>
+                <div class="preview-nav-item"></div>
+                <div class="preview-nav-item"></div>
+              </div>
+            </div>
+            <div class="preview-hero-area">
+              <div class="preview-headline" id="preview-headline">Dress Your Story</div>
+              <div class="preview-sub" id="preview-sub">Premium fashion, delivered fast</div>
+              <div class="preview-cta-btn">Shop Now</div>
+            </div>
+            <div class="preview-products">
+              <div class="preview-product">
+                <div class="preview-product-img" id="p1">👕</div>
+                <div class="preview-product-info">
+                  <div class="preview-product-name" id="pn1">Classic Tee</div>
+                  <div class="preview-product-price" id="pp1">₹599</div>
+                </div>
+              </div>
+              <div class="preview-product">
+                <div class="preview-product-img" id="p2">👖</div>
+                <div class="preview-product-info">
+                  <div class="preview-product-name" id="pn2">Slim Jeans</div>
+                  <div class="preview-product-price" id="pp2">₹1,299</div>
+                </div>
+              </div>
+              <div class="preview-product">
+                <div class="preview-product-img" id="p3">👟</div>
+                <div class="preview-product-info">
+                  <div class="preview-product-name" id="pn3">Sneakers</div>
+                  <div class="preview-product-price" id="pp3">₹2,199</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- FEATURES -->
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="section-label fade-up">Everything included</div>
+    <h2 class="fade-up">Built to sell.<br>Not just to look good.</h2>
+ 
+    <div class="features-grid fade-up">
+      <div class="feature-cell accent">
+        <div class="feature-icon-lg">🤖</div>
+        <h3>AI store generator</h3>
+        <p>Describe your business in one sentence. Antigravity AI writes headlines, product descriptions, and SEO content that actually converts.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-lg">🌐</div>
+        <h3>Instant subdomain</h3>
+        <p>Get yourstore.antigravity.ai live in 60 seconds. Upgrade to a custom domain like yourstore.com anytime — one click, no tech required.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-lg">💳</div>
+        <h3>Built-in payments</h3>
+        <p>Accept UPI, cards, net banking, and wallets. Payouts directly to your bank account. Zero setup fees — we only earn when you earn.</p>
+      </div>
+      <div class="feature-cell accent">
+        <div class="feature-icon-lg">📊</div>
+        <h3>Smart analytics</h3>
+        <p>See who's visiting, what they're buying, and where they drop off. AI-powered insights tell you what to fix — not just what's broken.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label fade-up">Simple pricing</div>
+    <h2 class="fade-up">Start free.<br>Scale when ready.</h2>
+ 
+    <div class="pricing-grid">
+      <div class="plan-card fade-up">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><span>₹</span>0</div>
+        <div class="plan-period">Free forever</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>1 store</li>
+          <li>Up to 10 products</li>
+          <li>Antigravity subdomain</li>
+          <li>UPI payments</li>
+          <li class="disabled">Custom domain</li>
+          <li class="disabled">AI content regeneration</li>
+          <li class="disabled">Analytics dashboard</li>
+        </ul>
+        <button class="plan-btn outline">Get started free</button>
+      </div>
+ 
+      <div class="plan-card featured fade-up">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><span>₹</span>499</div>
+        <div class="plan-period">per month</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>3 stores</li>
+          <li>Unlimited products</li>
+          <li>Custom domain included</li>
+          <li>All payment methods</li>
+          <li>AI content regeneration</li>
+          <li>Full analytics dashboard</li>
+          <li class="disabled">White-label stores</li>
+        </ul>
+        <button class="plan-btn solid">Start Pro — ₹499/mo</button>
+      </div>
+ 
+      <div class="plan-card fade-up">
+        <div class="plan-name">Business</div>
+        <div class="plan-price"><span>₹</span>999</div>
+        <div class="plan-period">per month</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Unlimited stores</li>
+          <li>Unlimited products</li>
+          <li>Custom domains</li>
+          <li>All payment methods</li>
+          <li>AI content regeneration</li>
+          <li>Advanced analytics + exports</li>
+          <li>White-label stores</li>
+        </ul>
+        <button class="plan-btn outline">Go Business</button>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonials-section">
+  <div class="container">
+    <div class="section-label fade-up">Real stories</div>
+    <h2 class="fade-up">Creators love<br>Antigravity AI.</h2>
+ 
+    <div class="testi-grid">
+      <div class="testi-card fade-up">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I had my clothing store live before my chai got cold. The AI wrote better product descriptions than I ever could. First sale came in 3 hours."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">PK</div>
+          <div>
+            <div class="testi-name">Priya K.</div>
+            <div class="testi-role">Fashion seller, Chennai</div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="testi-card fade-up">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I'm not a tech person at all. I literally just typed my shop name, clicked generate, and boom — my digital product store was ready. Zero stress."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">RV</div>
+          <div>
+            <div class="testi-name">Rahul V.</div>
+            <div class="testi-role">Course creator, Pune</div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="testi-card fade-up">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Running 3 stores on the Pro plan. The analytics dashboard alone is worth it — I can see exactly which products are killing it every day."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">AM</div>
+          <div>
+            <div class="testi-name">Aisha M.</div>
+            <div class="testi-role">Multi-brand owner, Mumbai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-label fade-up">Get started today</div>
+  <h2 class="fade-up">Stop planning.<br>Start <em style="font-style:normal;color:var(--acid)">selling.</em></h2>
+  <p class="fade-up">Your store is 60 seconds away. No card required to start. No code. No confusion.</p>
+  <div class="fade-up">
+    <a href="#builder" class="btn-primary" style="font-size:18px;padding:20px 48px;">⚡ Build My Store Free</a>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">
+    <span class="logo-dot"></span>
+    Antigravity<span style="color:var(--acid)">AI</span>
+  </a>
+  <div class="footer-copy">© 2026 Antigravity AI. Made with ⚡ in India.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Support</a>
+    <a href="#">Blog</a>
+  </div>
+</footer>
+ 
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // stagger siblings
+        const siblings = e.target.parentElement.querySelectorAll('.fade-up');
+        siblings.forEach((s, i) => {
+          setTimeout(() => s.classList.add('visible'), i * 80);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+ 
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+ 
+  // Niche data
+  const niches = {
+    fashion: {
+      headline: 'Dress Your Story',
+      sub: 'Premium fashion, delivered fast',
+      products: [
+        { e: '👕', n: 'Classic Tee', p: '₹599' },
+        { e: '👖', n: 'Slim Jeans', p: '₹1,299' },
+        { e: '👟', n: 'Sneakers', p: '₹2,199' }
+      ]
+    },
+    digital: {
+      headline: 'Download. Learn. Win.',
+      sub: 'Premium digital products',
+      products: [
+        { e: '📘', n: 'eBook Bundle', p: '₹299' },
+        { e: '🎓', n: 'Course Pack', p: '₹1,999' },
+        { e: '🖼️', n: 'Template Kit', p: '₹499' }
+      ]
+    },
+    food: {
+      headline: 'Fresh. Fast. Delicious.',
+      sub: 'Order your favourite meals',
+      products: [
+        { e: '🍕', n: 'Margherita', p: '₹349' },
+        { e: '🍔', n: 'Burger Box', p: '₹299' },
+        { e: '🥗', n: 'Salad Bowl', p: '₹249' }
+      ]
+    },
+    beauty: {
+      headline: 'Glow Up, Daily.',
+      sub: 'Clean beauty essentials',
+      products: [
+        { e: '💄', n: 'Matte Lipstick', p: '₹449' },
+        { e: '🧴', n: 'Face Serum', p: '₹899' },
+        { e: '✨', n: 'Glow Kit', p: '₹1,299' }
+      ]
+    },
+    courses: {
+      headline: 'Learn. Grow. Excel.',
+      sub: 'Expert-led online courses',
+      products: [
+        { e: '💻', n: 'Web Dev Pro', p: '₹2,999' },
+        { e: '📈', n: 'Marketing MA', p: '₹1,999' },
+        { e: '🎨', n: 'Design Pro', p: '₹1,499' }
+      ]
+    },
+    fitness: {
+      headline: 'Train Hard. Live Better.',
+      sub: 'Fitness gear & plans',
+      products: [
+        { e: '🏋️', n: 'Resistance Bands', p: '₹799' },
+        { e: '🧘', n: 'Yoga Mat Pro', p: '₹1,199' },
+        { e: '💪', n: '12-Week Plan', p: '₹999' }
+      ]
+    }
+  };
+ 
+  let currentNiche = 'fashion';
+ 
+  function selectNiche(btn, label, key) {
+    document.querySelectorAll('.niche-tag').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    currentNiche = key;
+    updatePreview(true);
+  }
+ 
+  function updatePreview(pulse = false) {
+    const rawName = document.getElementById('store-name').value || 'MyStore';
+    const data = niches[currentNiche];
+    
+    document.getElementById('preview-logo').textContent = rawName;
+    document.getElementById('browser-url').textContent = `antigravity.ai/store/${rawName.toLowerCase().replace(/\s/g, '-')}`;
+    document.getElementById('preview-headline').textContent = data.headline;
+    document.getElementById('preview-sub').textContent = data.sub;
+    
+    data.products.forEach((p, i) => {
+      document.getElementById(`p${i+1}`).textContent = p.e;
+      document.getElementById(`pn${i+1}`).textContent = p.n;
+      document.getElementById(`pp${i+1}`).textContent = p.p;
+    });
+
+    if (pulse) {
+        const previewEl = document.getElementById('store-preview');
+        previewEl.style.opacity = '0.5';
+        setTimeout(() => {
+            previewEl.style.opacity = '1';
+        }, 150);
+    }
+  }
+ 
+  function generateStore() {
+    const btn = document.getElementById('btn-text');
+    const steps = ['⏳ Designing layout...', '✍️ Writing copy...', '🎨 Choosing theme...', '🔌 Setting up payments...', '✅ Store is live!'];
+    let i = 0;
+    btn.textContent = steps[0];
+    const previewEl = document.getElementById('store-preview');
+    
+    const interval = setInterval(() => {
+      i++;
+      if (i < steps.length) {
+        btn.textContent = steps[i];
+        previewEl.style.opacity = (i % 2 === 0) ? '0.7' : '1';
+      } else {
+        clearInterval(interval);
+        btn.textContent = '🚀 Open My Store →';
+        previewEl.style.opacity = '1';
+        updatePreview(true);
+      }
+    }, 700);
+  }
+</script>
+ 
+</body>
+</html>
